@@ -159,8 +159,206 @@ void explainStack() {
 	stack<int> st1, st2;
 	st1.swap(st2);
 
-
 	// everytihing will be done in O(1)
+}
+
+void explainQueue() {
+	// This DS is similar to stack but this is FIFO type.
+
+	queue<int> q;
+	q.push(1); // {1}
+	q.push(2); // {1,2}
+	q.emplace(4); // {1,2,4}
+	q.back(); //  gives last number in the queue i.e 4
+	q.back() = q.back() + 5;   // prints 9 (4+5)
+	q.back() += 5;  // prints 14 (9+5)
+
+	q.front(); // gives the first or front element in the queue
+	q.pop(); // pop the front element 
+
+	// size, swap, empty are same as stack
+}
+
+void explainPQ() {
+	// PQ stands for priority queue
+	// PQ is used to simulate the max/min heap DS.
+	// Internally a tree is implemented to simulate this DS
+
+	// Max heap
+	priority_queue<int> pq; // by default we get max heap which always place largest element on top
+	pq.push(5); // {5} O(n)
+	pq.push(2); // {5,2}
+	pq.push(8); // {8,5,2}
+	pq.emplace(10);	// {10,8,5,2}
+
+	cout<<pq.top()<<endl; // gives the top guy i.e 10 O(1)
+
+	pq.pop(); // {8,5,2} pops out the top element i.e 10 O(logn)
+	// size, swap, empty are same as others
+
+	// Minimum/Min heap
+	priority_queue<int, vector<int>, greater<int>> pq1;
+	pq.push(5); // {5}
+	pq.push(2); // {2, 5}
+	pq.push(8); // {2, 5, 8}
+	pq.emplace(10);	// {2,5,8,10}
+
+	cout<<pq.top()<<endl; // gives the top guy i.e 2 (minimum is on top)
+}
+
+void explainSet() {
+	// sorted + unique
+	// internally a tree is maintained 
+	// everything happens in logn time O(logn)
+
+	set<int> st;
+	st.insert(1); // {1}
+	st.insert(2); // {1, 2}
+	st.insert(2); // {1, 2}
+	st.emplace(4); // {1, 2, 4}
+	st.insert(3); // {1, 2, 3, 4}  mainitain in orderly (sorted) fashion and only persist the unique elements
+
+	// same methods can be used as vectors in this DS.
+
+	auto it =  st.find(3); // will find the value for you and return its position/address
+
+	auto it =  st.find(6); // will try to find if not present will return st.end() i.e right after last value position
+
+	st.erase(5); //  this will log time
+
+	int count = st.count(2) // will give occurence if exist i.e 1 always if exist else gives 0
+
+	st.erase(it); // we can give iterator as well to erase the element O(1)
+
+	auto it1 = st.find(2);
+	auto it2 = st.find(4);
+	st.erase(it1, it2); //  can also erase by giving starting and ending point as well [first, last)
+
+	// lower_bound and upper_bound works same as vector
+
+	auto it3 = st.lower_bound(2);
+	auto it4 = st.upper_bound(3);
+
+}
+
+void explainMultiSet() {
+	// same as set but also stores duplicate numbers (sorted order follows)
+
+	multiset<int> ms;
+	ms.insert(1); // {1}
+	ms.insert(1); // {1, 1}
+	ms.insert(1); // {1, 1, 1}
+
+	ms.erase(1); // {} all 1's erased from multiset always removes the entire element duplicates too
+
+	int count = ms.count(1); // gives the occurence of the 1 i.e 3 before erase
+
+	ms.erase(ms.find(1)); // only erase the first 1 from all 1's
+
+	ms.erase(ms.find(1), ms.find(1)+2); // here it erase according to the given range
+
+	// rest is same as set
+}
+
+void explainUnorderedSet() {
+	unordered_set<int> st;
+
+	// lower_bound and upper_bound func does not work because not sorted
+	// rest functions are all same as set
+	// it does not store in any particular order
+	// it has better complexity then set in most cases
+	// except some when collisions happens 
+	// stores unique values  O(1)
+}
+
+void explainMap() {
+	// Map is all about storing key value pairs.
+	// Map only stores unique keys in sorted order 
+
+	map<int, int> mp;
+	map<int, pair<int, int>> mpp;
+	map<pair<int, int>, int>> mpi;
+
+	mpp[1] = 2; // 1 is key and 2 is value
+	mpp.emplace({3,4});
+	mpp.insert({4,5});
+	mpi[{2,3}] = 10; // here key is in pair
+
+	for(auto it : mpp) {
+		cout<<mpp.first<<" "<<mpp.second<<endl;
+	}
+
+	cout<<mpp[1]; // gives value of key 1
+	coun<<mpp[5]; // gives value of key 5 if not exist give either 0 or null or garbage value
+
+	auto it = mpp.find(3);
+	cout<<*(it).second<<endl; // it gives address, *(it) gives value at that it address
+
+	// it you try to find something that do not exist then it will
+	// point at mpp.end() right after the last element
+
+	auto it = mpp.lower_bound(2);
+	auto it = mpp.upper_bound(4);
+
+	// erase, swap, size, empty works same as above 
+}
+
+void explainMultiMap() {
+	// same as map but can also store duplicate/multple keys
+	// only mpp[key] acannot use here
+	// sorted order
+}
+
+
+void explainUnorderedMap() {
+	// same as map but not follow sorting
+	// map - O(logn), unorderdMap - O(1)
+}
+
+bool comp(pair<int, int>p1, pair<int, int>p2) {
+	if(p1.second < p2.second){
+		return true;
+	}
+	else if(p1.second == p2.second){
+		if(p1.first > p2.first)
+			return true;
+	}
+	return false;
+}
+
+void algorithms() {
+	// a[5] = {1,5,6,3,7}
+
+	sort(a, a+n); // n is size of a
+	sort(a.begin(), a.end()); // a should be vector here
+	sort(a+2, a+4); //  sort in a range 
+	sort(a, a+n, greater<int>); // sort in descending order
+
+	// greater<int> is an inbuilt comparator 
+
+	pair<int, int> arr[] = {{1,2}, {2,1}, {4,1}};
+
+	// custom comparator 
+	// sort it according to second element
+	// if second element is same then
+	// sort it according to first element but in descending
+
+	sort(a, a+n, comp); // comp is boolean function 
+	// {{4,1}, {2,1}, {1,2}}
+
+	int num = 7;
+	int cnt = __builtin_popcount(); //  gives the number of setbits/1's in total of 32 bits
+
+	long long num = 136128367381;
+	int cnt = __builtin_popcountll(); // this is used for long long data type
+
+	string s = "123";
+	do {
+		cout<<s<<endl;
+	} while(next_permutation(s.begin(), s.end()));  // print till null when no permutations left 
+
+	int maxi = *max_element(a, a+n);
+	int mini = *min_element(a, a+n);
 }
 
 int main() {
@@ -174,6 +372,12 @@ int main() {
 	explainList();
 	explainDeque();
 	explainStack();
+	explainQueue();
+	explainPQ();
+	explainMultiSet();
+	explainUnorderedSet();
+	explainMap();
+	algorithms();
 
 	return 0;
 }
